@@ -8,10 +8,6 @@ log-level: info
 ipv6: false
 external-controller: 127.0.0.1:9090
 cfw-latency-url: 'http://cp.cloudflare.com/generate_204'
-hosts:
-  mtalk.google.com: 108.177.125.188
-  services.googleapis.cn: 74.125.203.94
-  raw.githubusercontent.com: 151.101.76.133
 dns:
   enable: true
   listen: 127.0.0.1:53
