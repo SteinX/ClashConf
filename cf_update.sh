@@ -1,15 +1,20 @@
 #!/bin/bash
-set -eu pipefail
+set -euo pipefail
 
 # The path to the dnsmasq configuration file
 readonly DNSMASQ_CONFIG_PATH="/etc/dnsmasq.conf"
 # The path to the file with the test results
 readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.csv"
+# The path to the file with the list of IPs to test
+readonly CF_IPV4_LIST="/usr/share/CloudflareSpeedTest/ipv4.txt"
+
+# First of all, update the list of IPs to test
+curl -o $CF_IPV4_LIST https://www.cloudflare.com/ips-v4
 
 /usr/bin/cdnspeedtest \
     -httping \
     -o $CF_TEST_RESULTS \
-    -f /usr/share/CloudflareSpeedTest/ip.txt
+    -f $CF_IPV4_LIST
 
 # The hosts for which the IP resolution should be updated
 # You might need to adjust this line to fit your exact needs
