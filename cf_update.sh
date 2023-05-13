@@ -14,7 +14,7 @@ readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.txt"
 
 # The hosts for which the IP resolution should be updated
 # You might need to adjust this line to fit your exact needs
-TARGET_HOSTS=(
+readonly TARGET_HOSTS=(
     "hdarea.co"
     "azusa.wiki"
     "hhanclub.top"
@@ -25,7 +25,8 @@ TARGET_HOSTS=(
 )
 
 # Extract the IP address of the best result (first line, first column)
-readonly BEST_IP=$(awk -F ',' 'NR==2 {print $1}' "$CF_TEST_RESULTS")
+BEST_IP=$(awk -F ',' 'NR==2 {print $1}' "$CF_TEST_RESULTS")
+readonly BEST_IP
 
 # Update the dnsmasq configuration file
 for HOST in "${TARGET_HOSTS[@]}"; do
