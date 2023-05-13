@@ -4,13 +4,12 @@ set -eu pipefail
 # The path to the dnsmasq configuration file
 readonly DNSMASQ_CONFIG_PATH="/etc/dnsmasq.conf"
 # The path to the file with the test results
-readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.txt"
+readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.csv"
 
 /usr/bin/cdnspeedtest \
-    -url https://cf.xiu2.xyz/url \
+    -httping \
     -o $CF_TEST_RESULTS \
-    -f /usr/share/CloudflareSpeedTest/ip.txt \
-    -dn 1
+    -f /usr/share/CloudflareSpeedTest/ip.txt
 
 # The hosts for which the IP resolution should be updated
 # You might need to adjust this line to fit your exact needs
