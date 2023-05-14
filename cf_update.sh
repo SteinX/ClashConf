@@ -13,7 +13,7 @@ curl -o $CF_IPV4_LIST https://raw.githubusercontent.com/SteinX/ClashConf/main/cf
 
 /usr/bin/cdnspeedtest \
     -httping \
-    -cfcolo HKG,NRT \
+    -cfcolo HKG,TPE,SIN,NRT \
     -o $CF_TEST_RESULTS \
     -f $CF_IPV4_LIST
 
