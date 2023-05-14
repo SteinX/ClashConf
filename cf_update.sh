@@ -9,7 +9,7 @@ readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.csv"
 readonly CF_IPV4_LIST="/usr/share/CloudflareSpeedTest/ipv4.txt"
 
 # First of all, update the list of IPs to test
-curl -o $CF_IPV4_LIST https://www.cloudflare.com/ips-v4
+curl -o $CF_IPV4_LIST https://raw.githubusercontent.com/SteinX/ClashConf/main/cf_ipv4.txt
 
 /usr/bin/cdnspeedtest \
     -httping \
