@@ -31,8 +31,12 @@ readonly TARGET_HOSTS=(
 
 # Extract the IP address of the best result (take the second one, as the first one tend to be
 # problematic in my experience)
-BEST_IP=$(awk -F ',' 'NR>2{print $1; exit}' "$CF_TEST_RESULTS")
+BEST_IP=$(awk -F ',' 'NR>1{ip[NR-1]=$1} END{if(ip[2]) print ip[2]; else if(ip[1]) print ip[1]}' "$CF_TEST_RESULTS")
 readonly BEST_IP
+
+if [[ -z $BEST_IP ]]; then
+    exit 0
+fi
 
 # Update the dnsmasq configuration file
 for HOST in "${TARGET_HOSTS[@]}"; do
