@@ -13,6 +13,7 @@ curl -o $CF_IPV4_LIST https://raw.githubusercontent.com/SteinX/ClashConf/main/cf
 
 /usr/bin/cdnspeedtest \
     -httping \
+    -cfcolo HKG,NRT \
     -o $CF_TEST_RESULTS \
     -f $CF_IPV4_LIST
 
@@ -28,8 +29,9 @@ readonly TARGET_HOSTS=(
     "audiences.me"
 )
 
-# Extract the IP address of the best result (first line, first column)
-BEST_IP=$(awk -F ',' 'NR==2 {print $1}' "$CF_TEST_RESULTS")
+# Extract the IP address of the best result (take the second one, as the first one tend to be
+# problematic in my experience)
+BEST_IP=$(awk -F ',' 'NR>2{print $1; exit}' "$CF_TEST_RESULTS")
 readonly BEST_IP
 
 # Update the dnsmasq configuration file
