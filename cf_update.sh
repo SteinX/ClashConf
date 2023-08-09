@@ -19,15 +19,7 @@ curl -o $CF_IPV4_LIST https://raw.githubusercontent.com/SteinX/ClashConf/main/cf
 
 # The hosts for which the IP resolution should be updated
 # You might need to adjust this line to fit your exact needs
-readonly TARGET_HOSTS=(
-    "hdarea.co"
-    "azusa.wiki"
-    "hhanclub.top"
-    "haidan.video"
-    "hdtime.org"
-    "m-team.cc"
-    "audiences.me"
-)
+readonly TARGET_HOSTS=()
 
 # Extract the IP address of the best result (take the second one, as the first one tend to be
 # problematic in my experience)
