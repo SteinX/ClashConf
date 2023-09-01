@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# The path to the dnsmasq configuration file
-readonly DNSMASQ_CONFIG_PATH="/etc/dnsmasq.conf"
+# The path to the smartdns configuration file
+readonly SMARTDNS_CONFIG_PATH="/etc/smartdns/address.conf"
 # The path to the file with the test results
 readonly CF_TEST_RESULTS="/usr/share/cloudflarespeedtestresult.csv"
 # The path to the file with the list of IPs to test
@@ -12,8 +12,6 @@ readonly CF_IPV4_LIST="/usr/share/CloudflareSpeedTest/ipv4.txt"
 curl -o $CF_IPV4_LIST https://raw.githubusercontent.com/SteinX/ClashConf/main/cf_ipv4.txt
 
 /usr/bin/cdnspeedtest \
-    -httping \
-    -cfcolo HKG,TPE,SIN,NRT \
     -o $CF_TEST_RESULTS \
     -f $CF_IPV4_LIST
 
@@ -30,13 +28,33 @@ if [[ -z $BEST_IP ]]; then
     exit 0
 fi
 
-# Update the dnsmasq configuration file
+# Update the smartdns configuration file
 for HOST in "${TARGET_HOSTS[@]}"; do
-    # First, remove any existing resolution for this host
-    sed -i.bak "/address=\/$HOST\//d" "$DNSMASQ_CONFIG_PATH"
+    # Process the file with awk to replace or retain lines.
+    # If the host is not found, print a flag at the end.
+    awk -v host="$HOST" -v ip="$BEST_IP" '
+    BEGIN { found=0 }
+    {
+        if ($0 ~ "address /" host "/") {
+            print "address /" host "/" ip;
+            found=1;
+        } else {
+            print $0;
+        }
+    }
+    END {
+        if (found == 0) {
+            print "NEW_HOST_ENTRY";
+        }
+    }' "$SMARTDNS_CONFIG_PATH" > "${SMARTDNS_CONFIG_PATH}.tmp"
 
-    # Then, add the new resolution with the best IP
-    echo "address=/$HOST/$BEST_IP" | tee -a "$DNSMASQ_CONFIG_PATH"
+    # Check if the flag is present indicating a new host entry is needed.
+    if grep -q "NEW_HOST_ENTRY" "${SMARTDNS_CONFIG_PATH}.tmp"; then
+        sed "$ d" "${SMARTDNS_CONFIG_PATH}.tmp" -i  # Delete the flag line
+        echo "address /$HOST/$BEST_IP" >> "${SMARTDNS_CONFIG_PATH}.tmp"  # Append new host entry
+    fi
+
+    mv "${SMARTDNS_CONFIG_PATH}.tmp" "$SMARTDNS_CONFIG_PATH"
 done
 
-/etc/init.d/dnsmasq restart
+/etc/init.d/smartdns restart
