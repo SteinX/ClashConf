@@ -1,3 +1,5 @@
+DOMAIN,developers.facebook.com
+DOMAIN,fbcdn-a.akamaihd.net
 DOMAIN-SUFFIX,aboutfacebook.com
 DOMAIN-SUFFIX,accessfacebookfromschool.com
 DOMAIN-SUFFIX,accountkit.com
@@ -375,8 +377,6 @@ DOMAIN-SUFFIX,friendfeed.com
 DOMAIN-SUFFIX,friendfeedmedia.com
 DOMAIN-SUFFIX,fsacebok.com
 DOMAIN-SUFFIX,fscebook.com
-DOMAIN-SUFFIX,full:developers.facebook.com
-DOMAIN-SUFFIX,full:fbcdn-a.akamaihd.net
 DOMAIN-SUFFIX,fundraisingwithfacebook.com
 DOMAIN-SUFFIX,funnyfacebook.org
 DOMAIN-SUFFIX,futureofbusinesssurvey.org

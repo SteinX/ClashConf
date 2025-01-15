@@ -22,7 +22,11 @@ def fetch_and_process_domains(url):
             else:
                 if '@' in line:
                     line = line.split('@')[0].strip()
-                if not line.startswith('DOMAIN-SUFFIX,'):
+                
+                if line.startswith('full:'):
+                    domain = line[5:]
+                    line = f'DOMAIN,{domain}'
+                elif not line.startswith('DOMAIN'):
                     line = f'DOMAIN-SUFFIX,{line}'
                 domains.add(line)
     
