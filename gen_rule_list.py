@@ -46,27 +46,30 @@ parser.add_option("-u", "--url", dest="url",
 if not options.input_file:
     parser.error("Input file is required")
 
-# 首先处理在线域名列表（如果提供了URL）
 online_domains = set()
 if options.url:
     print(f"Fetching online domain list from: {options.url}")
     online_domains = fetch_and_process_domains(options.url)
     print(f"Retrieved {len(online_domains)} domains from online source")
 
-# 处理本地文件
 print(f"Reading from file: {options.input_file}")
-with open(options.input_file, 'r') as file:
-    lines = file.readlines()
-print(f"Read {len(lines)} lines from file")
+processed_lines = set()
 
-print("Processing lines...")
-processed_lines = set()  # 使用集合去重
-for line in lines:
-    line = line.strip()
-    if line:  # 忽略空行
-        if not line.startswith('DOMAIN-SUFFIX,'):
-            line = f'DOMAIN-SUFFIX,{line}'
-        processed_lines.add(line)
+try:
+    with open(options.input_file, 'r') as file:
+        lines = file.readlines()
+    print(f"Read {len(lines)} lines from existing file")
+    
+    for line in lines:
+        line = line.strip()
+        if line:
+            if not line.startswith('DOMAIN-SUFFIX,'):
+                line = f'DOMAIN-SUFFIX,{line}'
+            processed_lines.add(line)
+
+except FileNotFoundError:
+    print(f"File {options.input_file} does not exist, will create a new one")
+    lines = []
 
 # 合并在线域名和本地域名
 processed_lines.update(online_domains)
