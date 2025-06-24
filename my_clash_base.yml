@@ -35,9 +35,6 @@ dns:
     - 223.6.6.6
     - tls://1.12.12.12:853
     - tls://223.5.5.5:853
-  fallback:
-    - tls://1.0.0.1:853
-    - tls://dns.google:853
   fake-ip-range: 198.18.0.1/15
   fake-ip-filter:
     - "*.lan"
