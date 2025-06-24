@@ -38,17 +38,6 @@ dns:
   fallback:
     - tls://1.0.0.1:853
     - tls://dns.google:853
-  fallback-filter:
-    geoip: true
-    geoip-code: CN
-    ipcidr:
-      - 240.0.0.0/4
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
-      - '+.instagram.com'
-      - '+.linkedin.com'
   fake-ip-range: 198.18.0.1/15
   fake-ip-filter:
     - "*.lan"
